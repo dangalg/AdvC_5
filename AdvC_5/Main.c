@@ -5,13 +5,7 @@
 
 void main()
 {
-	char arr[2] = { 'a','b'};
-	if (CHECKNULL(arr))
-	{
-		printf("item is null");
-	}
-	else
-	{
-		printf("item is not null");
-	}
+	
+	char arr[2] = { NULL};
+	CHECKNULL(arr);
 }
