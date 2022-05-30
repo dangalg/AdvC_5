@@ -4,8 +4,8 @@
 #include <stdlib.h>
 
 void insert(TreeNode* root, int value);
-void inorder(TreeNode* root);
-int reversedinorder(TreeNode* root, int n, int* x);
+void inOrder(TreeNode* root);
+int reversedInOrder(TreeNode* root, int n, int* x);
 void freeTree(TreeNode* root);
 TreeNode* createNode();
 
@@ -62,7 +62,7 @@ void printTreeInorder(BST* bst)
 {
 	if (bst->root != NULL)
 	{
-		inorder(bst->root);
+		inOrder(bst->root);
 	}
 	else
 	{
@@ -70,13 +70,13 @@ void printTreeInorder(BST* bst)
 	}
 }
 
-void inorder(TreeNode* root)
+void inOrder(TreeNode* root)
 {
 	if (root != NULL)
 	{
-		inorder(root->left);
+		inOrder(root->left);
 		printf("%d", root->element);
-		inorder(root->right);
+		inOrder(root->right);
 	}
 }
 
@@ -93,21 +93,42 @@ void destroyBST(BST* bst)
 int findIndexNFromLast(BST* bst, int N) 
 {
 	int x;
-	reversedinorder(bst->root, N-1, &x);
+	reversedInOrder(bst->root, N-1, &x);
 	return x;
 }
 
-int reversedinorder(TreeNode* root, int n, int* x)
+int sameHeightLeaves(BST* bst)
+{
+	int x = -1;
+	checkleafHeight(bst->root, &x);
+	return x;
+}
+
+int checkleafHeight(TreeNode* root, int* x)
 {
 	if (root != NULL)
 	{
-		n = reversedinorder(root->right, n, x);
+		if (root->left == NULL && root->right == NULL)
+		{
+
+		}
+		inOrder(root->left);
+		printf("%d", root->element);
+		inOrder(root->right);
+	}
+}
+
+int reversedInOrder(TreeNode* root, int n, int* x)
+{
+	if (root != NULL)
+	{
+		n = reversedInOrder(root->right, n, x);
 		// first time null after largest number
 		if (n == 0)
 		{
 			*x = root->element;
 		}
-		n = reversedinorder(root->left, n-1, x);
+		n = reversedInOrder(root->left, n-1, x);
 		if (n == 0)
 		{
 			*x = root->element;
