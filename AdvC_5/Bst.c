@@ -3,6 +3,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void insert(TreeNode* root, int value);
+void inorder(TreeNode* root);
+int reversedinorder(TreeNode* root, int n, int* x);
+void freeTree(TreeNode* root);
+TreeNode* createNode();
+
 void initBST(BST* bst)
 {
 	bst->root = NULL;
@@ -10,24 +16,46 @@ void initBST(BST* bst)
 
 void insertBST(BST* bst, int value)
 {
-	TreeNode* newNode = (TreeNode*)malloc(sizeof(TreeNode));
-	CHECKNULL(&newNode);
-	newNode->element = value;
-	insert(bst->root, newNode);
+	if (bst->root == NULL)
+	{
+		bst->root = createNode();
+		bst->root->element = value;
+	}
+	else
+	{
+		insert(bst->root, value);
+	}
 }
 
-void insert(TreeNode* root, TreeNode* newNode)
+void insert(TreeNode* root, int value)
 {
-	if (newNode->element <= root->element) //left subtree (<=)
-		if (root->left == NULL)
-			root->left = newNode;
+	if (value <= root->element)
+	{
+		//left subtree (<=)
+		if (root->left == NULL) {
+			root->left = createNode();
+			root->left->element = value;
+		}
 		else
-			insert(root->left, newNode);
-	if (newNode->element > root->element) //right subtree (>)
-		if (root->right == NULL)
-			root->right = newNode;
+		{
+			insert(root->left, value);
+		}
+	}
+			
+	if (value > root->element) 
+	{
+		//right subtree (>)
+		if (root->right == NULL) 
+		{
+			root->right = createNode();
+			root->right->element = value;
+		}
 		else
-			insert(root->right, newNode);
+		{
+			insert(root->right, value);
+		}
+	}
+			
 }
 
 void printTreeInorder(BST* bst)
@@ -47,7 +75,7 @@ void inorder(TreeNode* root)
 	if (root != NULL)
 	{
 		inorder(root->left);
-		printf("", root->element);
+		printf("%d", root->element);
 		inorder(root->right);
 	}
 }
@@ -62,6 +90,33 @@ void destroyBST(BST* bst)
 	freeTree(bst->root);
 }
 
+int findIndexNFromLast(BST* bst, int N) 
+{
+	int x;
+	reversedinorder(bst->root, N-1, &x);
+	return x;
+}
+
+int reversedinorder(TreeNode* root, int n, int* x)
+{
+	if (root != NULL)
+	{
+		n = reversedinorder(root->right, n, x);
+		// first time null after largest number
+		if (n == 0)
+		{
+			*x = root->element;
+		}
+		n = reversedinorder(root->left, n-1, x);
+		if (n == 0)
+		{
+			*x = root->element;
+		}
+	}
+
+	return n;
+}
+
 void freeTree(TreeNode* root)
 {
 	if (root == NULL)
@@ -69,22 +124,31 @@ void freeTree(TreeNode* root)
 		return;
 	}
 
+	freeTree(root->left);
+
 	if (root->left == NULL && root->right == NULL)
 	{
 		free(root);
+		root = NULL;
 		return;
 	}
 
-	freeTree(root->left);
 	freeTree(root->right);
+
+	if (root->left == NULL && root->right == NULL)
+	{
+		free(root);
+		root = NULL;
+		return;
+	}
+
 }
-
-
 
 TreeNode* createNode() {
 	TreeNode* temp;
 	temp = (TreeNode*)malloc(sizeof(TreeNode));
-	temp->left = NULL; /// could use calloc instead
-	temp->right = NULL; /// could use calloc instead
+	CHECKNULL(&temp);
+	temp->left = NULL;
+	temp->right = NULL;
 	return temp;
 }
