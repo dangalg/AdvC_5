@@ -18,8 +18,11 @@ void main()
 	insertBST(&bst, 10);
 	insertBST(&bst, 11);
 
-	//print_ascii_tree(&bst);
-	//printTreeInorder(&bst);
+	print_ascii_tree(bst.root);
+
+	printf("\n\n");
+	printTreeInorder(&bst);
+	printf("\n");
 	printf("\n%d\n",findIndexNFromLast(&bst, 3));
 
 	destroyBST(&bst);

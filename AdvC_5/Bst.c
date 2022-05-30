@@ -124,8 +124,6 @@ void freeTree(TreeNode* root)
 		return;
 	}
 
-	freeTree(root->left);
-
 	if (root->left == NULL && root->right == NULL)
 	{
 		free(root);
@@ -133,7 +131,16 @@ void freeTree(TreeNode* root)
 		return;
 	}
 
+	freeTree(root->left);
+	if (root->left != NULL)
+	{
+		root->left = NULL;
+	}
 	freeTree(root->right);
+	if (root->right != NULL)
+	{
+		root->right = NULL;
+	}
 
 	if (root->left == NULL && root->right == NULL)
 	{
