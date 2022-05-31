@@ -8,6 +8,7 @@ void inOrder(TreeNode* root);
 int reversedInOrder(TreeNode* root, int n, int* x);
 void freeTree(TreeNode* root);
 TreeNode* createNode();
+int checkleafHeight(TreeNode* root, int n, int* x);
 
 void initBST(BST* bst)
 {
@@ -100,21 +101,23 @@ int findIndexNFromLast(BST* bst, int N)
 int sameHeightLeaves(BST* bst)
 {
 	int x = -1;
-	checkleafHeight(bst->root, &x);
+	int n = 0;
+	checkleafHeight(bst->root, n, &x);
 	return x;
 }
 
-int checkleafHeight(TreeNode* root, int* x)
+int checkleafHeight(TreeNode* root, int n, int* x)
 {
 	if (root != NULL)
 	{
+		// found leaf, set x to leaf height
 		if (root->left == NULL && root->right == NULL)
 		{
 
+			return n;
 		}
-		inOrder(root->left);
-		printf("%d", root->element);
-		inOrder(root->right);
+		n = checkleafHeight(root->left, n + 1, x);
+		n = checkleafHeight(root->right, n + 1, x);
 	}
 }
 
