@@ -8,7 +8,7 @@ void inOrder(TreeNode* root);
 int reversedInOrder(TreeNode* root, int n, int* x);
 void freeTree(TreeNode* root);
 TreeNode* createNode();
-int checkleafHeight(TreeNode* root, int n, int* x);
+void checkleafHeight(TreeNode* root, int n, int* x);
 
 void initBST(BST* bst)
 {
@@ -102,22 +102,32 @@ int sameHeightLeaves(BST* bst)
 {
 	int x = -1;
 	int n = 0;
+	int res = 0;
 	checkleafHeight(bst->root, n, &x);
+
 	return x;
 }
 
-int checkleafHeight(TreeNode* root, int n, int* x)
+void checkleafHeight(TreeNode* root, int n, int* x)
 {
 	if (root != NULL)
 	{
 		// found leaf, set x to leaf height
 		if (root->left == NULL && root->right == NULL)
 		{
+			if (*x == -1)
+			{
+				*x = n;
+			}
+			else if(*x > 0 && *x != n)
+			{
+				*x = -2;
+			}
 
-			return n;
+			return;
 		}
-		n = checkleafHeight(root->left, n + 1, x);
-		n = checkleafHeight(root->right, n + 1, x);
+		checkleafHeight(root->left, n - 1, x);
+		checkleafHeight(root->right, n - 1, x);
 	}
 }
 
