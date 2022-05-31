@@ -25,6 +25,18 @@ void main()
 	printf("\n");
 	printf("\n%d\n",findIndexNFromLast(&bst, 3));
 
+	printf("\n");
+	int res = sameHeightLeaves(&bst);
+	if (res)
+	{
+		printf("The leaves are the same height");
+	}
+	else
+	{
+		printf("The leaves are not the same height");
+	}
+	printf("\n");
+
 	destroyBST(&bst);
 
 	_CrtDumpMemoryLeaks(); //uncomment this block to check for heap memory allocation leaks.

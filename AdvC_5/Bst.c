@@ -104,8 +104,18 @@ int sameHeightLeaves(BST* bst)
 	int n = 0;
 	int res = 0;
 	checkleafHeight(bst->root, n, &x);
-
-	return x;
+	if (x == -2)
+	{
+		return 0;
+	}
+	else if (x >= 0)
+	{
+		return 1;
+	}
+	else
+	{
+		printf("The tree is empty");
+	}
 }
 
 void checkleafHeight(TreeNode* root, int n, int* x)
@@ -126,8 +136,8 @@ void checkleafHeight(TreeNode* root, int n, int* x)
 
 			return;
 		}
-		checkleafHeight(root->left, n - 1, x);
-		checkleafHeight(root->right, n - 1, x);
+		checkleafHeight(root->left, n + 1, x);
+		checkleafHeight(root->right, n + 1, x);
 	}
 }
 
